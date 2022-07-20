@@ -7,5 +7,5 @@
   "curly": true,
   "strict": false,
   "browser": true,
-  "esversion": 6
+  "esversion": 8
 }

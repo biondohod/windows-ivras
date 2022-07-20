@@ -1826,3 +1826,7 @@ textarea:focus {
 .open-modal {
   overflow: hidden;
 }
+
+button:disabled {
+  opacity: 0.5;
+}
