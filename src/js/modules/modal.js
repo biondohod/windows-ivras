@@ -1,7 +1,3 @@
-const openModalLBtn = document.querySelector('.popup_engineer_btn');
-const modalL = document.querySelector('.popup_engineer');
-const closeModalLBtn = modalL.querySelector('.popup_close');
-
 class Modal {
   constructor(modalSelector, closeBtnSelector, ...triggers) {
     this._modalClass = modalSelector.slice(1);
