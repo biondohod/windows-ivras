@@ -1,16 +1,10 @@
 import { postData } from "./api";
+import { checkNumInputs } from "./utils";
+import { modalState, resetCalcForm } from "./calc";
 
 const forms = document.querySelectorAll('form');
 
-const phoneInputs = document.querySelectorAll('input[name="user_phone"]');
-phoneInputs.forEach((input) => {
-  input.addEventListener('input', () => {
-    input.value = input.value.replace(/\D/, '');
-    if (input.value.length > 11) {
-      input.value = input.value.slice(0, 11);
-    }
-  });
-});
+checkNumInputs('input[name="user_phone"]');
 
 const messages = {
   loading: {
@@ -68,21 +62,37 @@ const removeMessage = (form) => {
   btn.style = '';
 };
 
-forms.forEach((form) => {
-  form.addEventListener('submit', (evt) => {
-    evt.preventDefault();
+const postForm = (evt, form, state) =>{
+  evt.preventDefault();
     createMessage(messages.loading, form);
     const formData = new FormData(form);
+    if (form.getAttribute('data-calc') === 'end') {
+      for (let key in state) {
+        formData.append(key, state[key]);
+      }
+    }
     const jsonObj = JSON.stringify(Object.fromEntries(formData.entries()));
     postData('http://localhost:3000/requests', jsonObj)
-      .then(() => {
+      .then((data) => {
+        if (!data.ok) {
+          postData.reject();
+        }
         removeMessage(form);
         createMessage(messages.success, form, 5);
         form.reset();
+      })
+      .then(() => {
+        if (form.getAttribute('data-calc') === 'end') {
+          resetCalcForm();
+        }
       })
       .catch(()=> {
         removeMessage(form);
         createMessage(messages.failure, form, 5);
       });
-  });
+};
+
+forms.forEach((form) => {
+  form.addEventListener('submit', (evt) => postForm(evt, form, modalState));
 });
+

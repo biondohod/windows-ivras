@@ -1,8 +1,10 @@
 class Modal {
-  constructor(modalSelector, closeBtnSelector, ...triggers) {
+  constructor(modalSelector, closeBtnSelector, isCloseBySubstrate, ...triggers) {
     this._modalClass = modalSelector.slice(1);
     this._modal = document.querySelector(modalSelector);
-    this._modal.addEventListener('click', (evt) => this.closeModalLBySubstrate(evt));
+    if (isCloseBySubstrate) {
+      this._modal.addEventListener('click', (evt) => this.closeModalLBySubstrate(evt));
+    }
     triggers.forEach((trigger) => {
       const elements = document.querySelectorAll(trigger);
       elements.forEach((element) => {
@@ -39,5 +41,15 @@ class Modal {
 
 }
 
-new Modal('.popup_engineer', '.popup_close', '.popup_engineer_btn');
-new Modal('.popup', '.popup_close', '.phone_link').addTimer(60);
+new Modal('.popup_engineer', '.popup_close', true, '.popup_engineer_btn');
+new Modal('.popup', '.popup_close', true, '.phone_link').addTimer(60);
+
+const calc = new Modal('.popup_calc', '.popup_calc_close', false, '.popup_calc_btn');
+document.querySelector('.popup_calc_button').addEventListener('click', () => calc.closeModal());
+
+const profile = new Modal('.popup_calc_profile', '.popup_calc_profile_close', false, '.popup_calc_button');
+document.querySelector('.popup_calc_profile_button').addEventListener('click', () => profile.closeModal());
+
+const calcEnd = new Modal('.popup_calc_end', '.popup_calc_end_close', false, '.popup_calc_profile_button');
+
+export{calcEnd};
