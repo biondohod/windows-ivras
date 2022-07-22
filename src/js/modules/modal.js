@@ -1,3 +1,17 @@
+const calcScrollWidth = () => {
+  let div = document.createElement('div');
+  div.style.overflowY = 'scroll';
+  div.style.width = '50px';
+  div.style.height = '50px';
+  document.body.append(div);
+  let scrollWidth = div.offsetWidth - div.clientWidth;
+  div.remove();
+  return scrollWidth;
+};
+
+const scrollWidth = calcScrollWidth();
+
+
 class Modal {
   constructor(modalSelector, closeBtnSelector, isCloseBySubstrate, ...triggers) {
     this._modalClass = modalSelector.slice(1);
@@ -20,11 +34,13 @@ class Modal {
     }
     this._modal.classList.add('show');
     document.body.classList.add('open-modal');
+    document.body.style.marginRight = `${scrollWidth}px`;
   }
 
   closeModal() {
     this._modal.classList.remove('show');
     document.body.classList.remove('open-modal');
+    document.body.style.marginRight = '0px';
   }
 
   closeModalLBySubstrate(evt) {
