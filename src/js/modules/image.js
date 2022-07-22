@@ -7,6 +7,7 @@ const popup = document.createElement('div');
     align-items: center;
   `;
 popup.classList.add('popup');
+popup.classList.add('big-img-anim');
 const popupImg = document.createElement('img');
 popupImg.style.cssText = `
   max-width: 60%;
