@@ -4,3 +4,4 @@ import './modules/tabs';
 import './modules/form';
 import './modules/calc';
 import './modules/timer';
+import './modules/image';
